@@ -3,6 +3,14 @@ import User from "../models/User.js";
 
 export const inngest = new Inngest({ id: "pingup-app" });
 
+// Debug logger — catches ALL events
+const logEvent = inngest.createFunction(
+  { id: "log-any-event" },
+  { event: "*" },
+  async ({ event }) => {
+    console.log("📩 Incoming event:", event.name, event.data);
+  }
+);
 
 // Create user
 const syncUserCreation = inngest.createFunction(
@@ -58,7 +66,7 @@ const syncUserDeletion = inngest.createFunction(
 );
 
 export const functions = [
-  
+  logEvent, // Keep this for debugging
   syncUserCreation,
   syncUserUpdation,
   syncUserDeletion,
